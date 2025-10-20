@@ -1,7 +1,6 @@
 # Patient Management App
 
 Basit bir hasta yönetim sistemi. Bu repo iki bölüm içerir: **backend** (API) ve **frontend** (React).  
-Aşağıda hızlıca kurulum ve temel bilgiler yer alır.
 
 ---
 
