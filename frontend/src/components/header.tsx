@@ -5,8 +5,7 @@ type NavigationLink = { to: keyof FileRoutesByTo; label: string };
 
 const navigationLinks: NavigationLink[] = [
   { to: "/", label: "Home" },
-  { to: "/pokemon", label: "Pokemon" },
-  { to: "/posts", label: "Posts" },
+  { to: "/patients", label: "Patients" },
 ];
 
 export function Header() {
@@ -14,7 +13,7 @@ export function Header() {
     <header style={{ padding: 20, background: "#eee" }}>
       <div className="flex justify-between items-center">
         <Link to="/">
-          <h1>Tanstack Tech Demo</h1>
+          <h1>It Exam Patients</h1>
         </Link>
         <div className="flex gap-4">
           {navigationLinks.map((link) => (

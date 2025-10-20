@@ -10,93 +10,51 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as appPokemonLayoutRouteImport } from './routes/(app)/pokemon/_layout'
-import { Route as appPostsIndexRouteImport } from './routes/(app)/posts/index'
-import { Route as appPokemonIndexRouteImport } from './routes/(app)/pokemon/index'
-import { Route as appPostsPostIdRouteImport } from './routes/(app)/posts/$postId'
-import { Route as appPokemonPokemonIdRouteImport } from './routes/(app)/pokemon/$pokemonId'
+import { Route as appPatientsLayoutRouteImport } from './routes/(app)/patients/_layout'
+import { Route as appPatientsIndexRouteImport } from './routes/(app)/patients/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const appPokemonLayoutRoute = appPokemonLayoutRouteImport.update({
-  id: '/(app)/pokemon',
-  path: '/pokemon',
+const appPatientsLayoutRoute = appPatientsLayoutRouteImport.update({
+  id: '/(app)/patients',
+  path: '/patients',
   getParentRoute: () => rootRouteImport,
 } as any)
-const appPostsIndexRoute = appPostsIndexRouteImport.update({
-  id: '/(app)/posts/',
-  path: '/posts/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const appPokemonIndexRoute = appPokemonIndexRouteImport.update({
+const appPatientsIndexRoute = appPatientsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => appPokemonLayoutRoute,
-} as any)
-const appPostsPostIdRoute = appPostsPostIdRouteImport.update({
-  id: '/(app)/posts/$postId',
-  path: '/posts/$postId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const appPokemonPokemonIdRoute = appPokemonPokemonIdRouteImport.update({
-  id: '/$pokemonId',
-  path: '/$pokemonId',
-  getParentRoute: () => appPokemonLayoutRoute,
+  getParentRoute: () => appPatientsLayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/pokemon': typeof appPokemonLayoutRouteWithChildren
-  '/pokemon/$pokemonId': typeof appPokemonPokemonIdRoute
-  '/posts/$postId': typeof appPostsPostIdRoute
-  '/pokemon/': typeof appPokemonIndexRoute
-  '/posts': typeof appPostsIndexRoute
+  '/patients': typeof appPatientsLayoutRouteWithChildren
+  '/patients/': typeof appPatientsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/pokemon/$pokemonId': typeof appPokemonPokemonIdRoute
-  '/posts/$postId': typeof appPostsPostIdRoute
-  '/pokemon': typeof appPokemonIndexRoute
-  '/posts': typeof appPostsIndexRoute
+  '/patients': typeof appPatientsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/(app)/pokemon': typeof appPokemonLayoutRouteWithChildren
-  '/(app)/pokemon/$pokemonId': typeof appPokemonPokemonIdRoute
-  '/(app)/posts/$postId': typeof appPostsPostIdRoute
-  '/(app)/pokemon/': typeof appPokemonIndexRoute
-  '/(app)/posts/': typeof appPostsIndexRoute
+  '/(app)/patients': typeof appPatientsLayoutRouteWithChildren
+  '/(app)/patients/': typeof appPatientsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/pokemon'
-    | '/pokemon/$pokemonId'
-    | '/posts/$postId'
-    | '/pokemon/'
-    | '/posts'
+  fullPaths: '/' | '/patients' | '/patients/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pokemon/$pokemonId' | '/posts/$postId' | '/pokemon' | '/posts'
-  id:
-    | '__root__'
-    | '/'
-    | '/(app)/pokemon'
-    | '/(app)/pokemon/$pokemonId'
-    | '/(app)/posts/$postId'
-    | '/(app)/pokemon/'
-    | '/(app)/posts/'
+  to: '/' | '/patients'
+  id: '__root__' | '/' | '/(app)/patients' | '/(app)/patients/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  appPokemonLayoutRoute: typeof appPokemonLayoutRouteWithChildren
-  appPostsPostIdRoute: typeof appPostsPostIdRoute
-  appPostsIndexRoute: typeof appPostsIndexRoute
+  appPatientsLayoutRoute: typeof appPatientsLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -108,62 +66,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(app)/pokemon': {
-      id: '/(app)/pokemon'
-      path: '/pokemon'
-      fullPath: '/pokemon'
-      preLoaderRoute: typeof appPokemonLayoutRouteImport
+    '/(app)/patients': {
+      id: '/(app)/patients'
+      path: '/patients'
+      fullPath: '/patients'
+      preLoaderRoute: typeof appPatientsLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(app)/posts/': {
-      id: '/(app)/posts/'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof appPostsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(app)/pokemon/': {
-      id: '/(app)/pokemon/'
+    '/(app)/patients/': {
+      id: '/(app)/patients/'
       path: '/'
-      fullPath: '/pokemon/'
-      preLoaderRoute: typeof appPokemonIndexRouteImport
-      parentRoute: typeof appPokemonLayoutRoute
-    }
-    '/(app)/posts/$postId': {
-      id: '/(app)/posts/$postId'
-      path: '/posts/$postId'
-      fullPath: '/posts/$postId'
-      preLoaderRoute: typeof appPostsPostIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(app)/pokemon/$pokemonId': {
-      id: '/(app)/pokemon/$pokemonId'
-      path: '/$pokemonId'
-      fullPath: '/pokemon/$pokemonId'
-      preLoaderRoute: typeof appPokemonPokemonIdRouteImport
-      parentRoute: typeof appPokemonLayoutRoute
+      fullPath: '/patients/'
+      preLoaderRoute: typeof appPatientsIndexRouteImport
+      parentRoute: typeof appPatientsLayoutRoute
     }
   }
 }
 
-interface appPokemonLayoutRouteChildren {
-  appPokemonPokemonIdRoute: typeof appPokemonPokemonIdRoute
-  appPokemonIndexRoute: typeof appPokemonIndexRoute
+interface appPatientsLayoutRouteChildren {
+  appPatientsIndexRoute: typeof appPatientsIndexRoute
 }
 
-const appPokemonLayoutRouteChildren: appPokemonLayoutRouteChildren = {
-  appPokemonPokemonIdRoute: appPokemonPokemonIdRoute,
-  appPokemonIndexRoute: appPokemonIndexRoute,
+const appPatientsLayoutRouteChildren: appPatientsLayoutRouteChildren = {
+  appPatientsIndexRoute: appPatientsIndexRoute,
 }
 
-const appPokemonLayoutRouteWithChildren =
-  appPokemonLayoutRoute._addFileChildren(appPokemonLayoutRouteChildren)
+const appPatientsLayoutRouteWithChildren =
+  appPatientsLayoutRoute._addFileChildren(appPatientsLayoutRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  appPokemonLayoutRoute: appPokemonLayoutRouteWithChildren,
-  appPostsPostIdRoute: appPostsPostIdRoute,
-  appPostsIndexRoute: appPostsIndexRoute,
+  appPatientsLayoutRoute: appPatientsLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

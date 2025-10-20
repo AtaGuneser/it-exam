@@ -1,28 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import type { FileRoutesByTo } from "@/routeTree.gen";
 
 export const Route = createFileRoute("/")({
   component: App,
 });
 
-type NavigationLink = { to: keyof FileRoutesByTo; label: string };
-
-const navigationLinks: NavigationLink[] = [
-  { to: "/posts", label: "Posts" },
-  { to: "/pokemon", label: "Pokemon" },
-];
-
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
-      <div className="flex gap-6">
-        {navigationLinks.map((link) => (
-          <Button asChild size="lg" key={link.to}>
-            <Link to={link.to}>{link.label}</Link>
-          </Button>
-        ))}
-      </div>
+    <div className="flex flex-col items-center justify-center min-h-[80vh] text-center px-4">
+      <h1 className="text-4xl font-bold mb-4">Hoş Geldiniz 👋</h1>
+      <p className="text-lg text-muted-foreground max-w-md mb-8">
+        Hasta yönetim sistemine hoş geldiniz. Buradan hasta bilgilerini
+        görüntüleyebilir, ekleyebilir veya düzenleyebilirsiniz.
+      </p>
+
+      <Button asChild size="lg" className="px-8">
+        <Link to="/patients">Hasta Tablosuna Git</Link>
+      </Button>
     </div>
   );
 }

@@ -2,12 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
 import { PatientsTable } from "@/components/tables/patients/data-table";
-import { patientColumns } from "@/components/tables/patient-columns";
-import { patientQueryOptions } from "@/lib/query/patient-query-options";
-import { QUERY_KEYS } from "@/lib/queries/query-keys";
+import { patientQueryOptions } from "@/lib/query-options";
+import { patientColumns } from "@/components/tables/patients/columns";
 
-import { TableSkeleton } from "@/components/tables/shared/table-skeleton";
-import FetchError from "@/components/tables/shared/fetch-error";
 
 export const Route = createFileRoute("/(app)/patients/")({
   component: RouteComponent,
@@ -17,26 +14,8 @@ function RouteComponent() {
 
   const {
     data,
-    isLoading,
     isFetching,
-    error,
   } = useQuery(patientQueryOptions.getPatients());
-
-
-  if (isLoading) {
-    return (
-      <div className="px-6 py-4">
-        <TableSkeleton />
-      </div>
-    );
-  }
-  if (error) {
-    return (
-      <div className="px-6 py-4">
-        <FetchError />
-      </div>
-    );
-  }
 
   const patients = data ?? [];
   const isEmpty = patients.length === 0;
@@ -47,7 +26,6 @@ function RouteComponent() {
         <PatientsTable
           columns={patientColumns}
           data={patients}
-          onRefresh={handleRefresh}
           isRefetching={isFetching}
         />
       </div>
