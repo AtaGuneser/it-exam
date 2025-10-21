@@ -13,3 +13,5 @@ export const patientSchema = z.object({
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
 });
+
+export type PatientRowData = z.infer<typeof patientSchema>;
