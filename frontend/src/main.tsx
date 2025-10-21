@@ -1,15 +1,15 @@
-import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 
-// Import the generated route tree
+
 import { routeTree } from "./routeTree.gen";
 
 import "./styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Spinner } from "@/components/spinner/Spinner";
 import { testContext } from "@/context/test-context";
-// Create a new router instance
+import { Toaster } from "sonner";
+
 const queryClient = new QueryClient();
 
 const router = createRouter({
@@ -29,22 +29,28 @@ const router = createRouter({
   defaultPreloadStaleTime: 0,
 });
 
-// Register the router instance for type safety
+
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }
 }
 
-// Render the app
 const rootElement = document.getElementById("app");
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <StrictMode>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} context={{ testContext }} />
+        <Toaster
+          style={{ zIndex: 10000 }}
+          closeButton
+          toastOptions={{
+            classNames: {
+              closeButton: "transform scale-[2.5] !w-[8px] !h-[8px]",
+            },
+          }}
+        />
       </QueryClientProvider>
-    </StrictMode>
   );
 }

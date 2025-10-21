@@ -1,5 +1,3 @@
-// src/lib/api/patients.ts
-
 import axios from "axios";
 import { patientSchema } from "../schema/patient";
 import { useAuthStore } from "@/store/auth-store";
@@ -19,7 +17,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Tüm hastaları getir
+// Tüm hastalar
 export async function fetchPatients() {
   const { data } = await api.get("/patients");
 
@@ -32,7 +30,7 @@ export async function fetchPatients() {
   return parsed.data;
 }
 
-// Tek hasta getir (id ile)
+// Tek hasta
 export async function fetchPatientById(id: string) {
   const { data } = await api.get(`/patients/${id}`);
 
@@ -45,7 +43,7 @@ export async function fetchPatientById(id: string) {
   return parsed.data;
 }
 
-// Yeni hasta oluştur
+// Yeni hasta
 export async function createPatient(formData: unknown) {
   const parsed = patientSchema.safeParse(formData);
   if (!parsed.success) {
@@ -74,15 +72,12 @@ export async function updatePatient(id: string, updates: unknown) {
   const { data } = await api.put(`/patients/${id}`, parsed.data);
 
   const validated = patientSchema.safeParse(data.patient);
-  if (!validated.success) {
-    throw new Error("Invalid response after update");
-  }
-
+  
   return validated.data;
 }
 
 // Hasta sil
 export async function deletePatient(id: string) {
   const { data } = await api.delete(`/patients/${id}`);
-  return data.message; // "Patient deleted successfully"
+  return data.message; 
 }

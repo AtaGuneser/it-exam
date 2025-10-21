@@ -1,90 +1,110 @@
-import type { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 import {
+  flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-  flexRender,
+  type ColumnDef,
+  type SortingState,
 } from "@tanstack/react-table";
-import { z } from "zod";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { DataTablePagination } from "@/components/tables/shared/data-table-pagination";
 import { patientSchema } from "@/lib/schema/patient";
+import { z } from "zod";
+import CreatePatientModal from "@/components/modal/patient-create-modal";
+
 
 export type PatientRowData = z.infer<typeof patientSchema>;
 
 interface PatientsTableProps {
   columns: ColumnDef<PatientRowData>[];
   data: PatientRowData[];
-  isRefetching?: boolean;
 }
 
-export function PatientsTable({
-  columns,
-  data,
-}: PatientsTableProps) {
+export function PatientsTable({ columns, data }: PatientsTableProps) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [open, setOpen] = useState(false);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    state: { sorting },
   });
 
   return (
-    <div className="relative w-full rounded-xl overflow-hidden border border-border/50 bg-card shadow-sm">
-      <div className="overflow-x-auto w-full">
-        <table className="min-w-full text-sm text-left border-collapse">
-          <thead className="bg-muted/40">
+    <div className="p-4 w-full overflow-x-auto">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+        <Button onClick={() => setOpen(true)} className="flex items-center gap-2 cursor-pointer">
+          <Plus className="h-4 w-4" />
+          Yeni Hasta
+        </Button>
+      </div>
+
+      <div className="rounded-md border border-border/50 bg-card">
+        <Table>
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b border-border/50">
+              <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="px-4 py-3 font-semibold text-muted-foreground uppercase tracking-wide text-xs whitespace-nowrap"
-                  >
+                  <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  </th>
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
                 ))}
-              </tr>
+              </TableRow>
             ))}
-          </thead>
+          </TableHeader>
 
-          <tbody>
-            {table.getRowModel().rows.length > 0 ? (
-              table.getRowModel().rows.map((row, rowIndex) => (
-                <tr
+          <TableBody>
+            {table.getRowModel().rows.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
                   key={row.id}
-                  className={`border-t border-border/30 hover:bg-muted/10 transition-colors ${rowIndex % 2 === 0 ? "bg-background" : "bg-muted/20"
-                    }`}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="hover:bg-muted/10 transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="px-4 py-3 text-sm text-foreground whitespace-nowrap"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
+                    <TableCell key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
                   ))}
-                </tr>
+                </TableRow>
               ))
             ) : (
-              <tr>
-                <td
+              <TableRow>
+                <TableCell
                   colSpan={columns.length}
                   className="text-center py-8 text-muted-foreground"
                 >
                   Henüz kayıtlı hasta bulunmuyor.
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             )}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
+
+      <div className="mt-4">
+        <DataTablePagination table={table} />
+      </div>
+
+      <CreatePatientModal open={open} onOpenChange={setOpen} />
     </div>
   );
 }

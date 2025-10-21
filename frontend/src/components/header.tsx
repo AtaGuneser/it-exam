@@ -17,8 +17,8 @@ type NavigationLink = {
 };
 
 const navigationLinks: NavigationLink[] = [
-  { to: "/", label: "Home" },
-  { to: "/patients", label: "Patients" },
+  { to: "/", label: "Anasayfa" },
+  { to: "/patients", label: "Hastalar" },
 ];
 
 export function Header() {
