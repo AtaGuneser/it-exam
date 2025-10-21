@@ -7,7 +7,7 @@ import { routeTree } from "./routeTree.gen";
 
 import "./styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Spinner } from "@/components/spinner";
+import { Spinner } from "@/components/spinner/Spinner";
 import { testContext } from "@/context/test-context";
 // Create a new router instance
 const queryClient = new QueryClient();

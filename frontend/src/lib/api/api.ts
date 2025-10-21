@@ -2,12 +2,21 @@
 
 import axios from "axios";
 import { patientSchema } from "../schema/patient";
+import { useAuthStore } from "@/store/auth-store";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 const api = axios.create({
   baseURL: API_URL,
   withCredentials: true,
+});
+
+api.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 // Tüm hastaları getir

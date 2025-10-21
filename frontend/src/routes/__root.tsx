@@ -1,5 +1,6 @@
 import { Header } from "@/components/header";
-import { Spinner } from "@/components/spinner";
+import { Spinner } from "@/components/spinner/Spinner";
+
 import type { TestContext } from "@/context/test-context";
 import { QueryClient } from "@tanstack/react-query";
 import {

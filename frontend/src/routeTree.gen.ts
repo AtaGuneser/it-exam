@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as appPatientsLayoutRouteImport } from './routes/(app)/patients/_layout'
+import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
 import { Route as appPatientsIndexRouteImport } from './routes/(app)/patients/index'
+import { Route as authLoginLayoutRouteImport } from './routes/(auth)/login/layout'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,38 +25,62 @@ const appPatientsLayoutRoute = appPatientsLayoutRouteImport.update({
   path: '/patients',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authLoginIndexRoute = authLoginIndexRouteImport.update({
+  id: '/(auth)/login/',
+  path: '/login/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const appPatientsIndexRoute = appPatientsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => appPatientsLayoutRoute,
 } as any)
+const authLoginLayoutRoute = authLoginLayoutRouteImport.update({
+  id: '/(auth)/login/layout',
+  path: '/login/layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/patients': typeof appPatientsLayoutRouteWithChildren
+  '/login/layout': typeof authLoginLayoutRoute
   '/patients/': typeof appPatientsIndexRoute
+  '/login': typeof authLoginIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login/layout': typeof authLoginLayoutRoute
   '/patients': typeof appPatientsIndexRoute
+  '/login': typeof authLoginIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(app)/patients': typeof appPatientsLayoutRouteWithChildren
+  '/(auth)/login/layout': typeof authLoginLayoutRoute
   '/(app)/patients/': typeof appPatientsIndexRoute
+  '/(auth)/login/': typeof authLoginIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/patients' | '/patients/'
+  fullPaths: '/' | '/patients' | '/login/layout' | '/patients/' | '/login'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/patients'
-  id: '__root__' | '/' | '/(app)/patients' | '/(app)/patients/'
+  to: '/' | '/login/layout' | '/patients' | '/login'
+  id:
+    | '__root__'
+    | '/'
+    | '/(app)/patients'
+    | '/(auth)/login/layout'
+    | '/(app)/patients/'
+    | '/(auth)/login/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   appPatientsLayoutRoute: typeof appPatientsLayoutRouteWithChildren
+  authLoginLayoutRoute: typeof authLoginLayoutRoute
+  authLoginIndexRoute: typeof authLoginIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -73,12 +99,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appPatientsLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(auth)/login/': {
+      id: '/(auth)/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(app)/patients/': {
       id: '/(app)/patients/'
       path: '/'
       fullPath: '/patients/'
       preLoaderRoute: typeof appPatientsIndexRouteImport
       parentRoute: typeof appPatientsLayoutRoute
+    }
+    '/(auth)/login/layout': {
+      id: '/(auth)/login/layout'
+      path: '/login/layout'
+      fullPath: '/login/layout'
+      preLoaderRoute: typeof authLoginLayoutRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -97,6 +137,8 @@ const appPatientsLayoutRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   appPatientsLayoutRoute: appPatientsLayoutRouteWithChildren,
+  authLoginLayoutRoute: authLoginLayoutRoute,
+  authLoginIndexRoute: authLoginIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

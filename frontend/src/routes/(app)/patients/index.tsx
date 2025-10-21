@@ -1,12 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
 import { PatientsTable } from "@/components/tables/patients/data-table";
 import { patientQueryOptions } from "@/lib/query-options";
 import { patientColumns } from "@/components/tables/patients/columns";
+import { isAuthenticated } from "@/hooks/use-auth";
 
 
 export const Route = createFileRoute("/(app)/patients/")({
+  beforeLoad: () => {
+    if (!isAuthenticated()) {
+      throw redirect({ to: "/login" });
+    }
+  },
   component: RouteComponent,
 });
 

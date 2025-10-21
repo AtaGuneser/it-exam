@@ -3,11 +3,19 @@ import dotenv from "dotenv";
 import { connectDB } from "./db/db";
 import authRoutes from "./routes/auth";
 import patientRoutes from "./routes/patients";
-
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
+
+app.use(
+    cors({
+        origin: "http://localhost:3000",
+        credentials: true,
+    })
+);
+
 const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
