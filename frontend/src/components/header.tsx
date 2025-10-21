@@ -42,7 +42,6 @@ export function Header() {
           🏥 It Exam Patients
         </Link>
 
-        {/* Desktop Menu */}
         <nav className="hidden md:flex gap-6 items-center">
           {navigationLinks.map((link) => (
             <Link
@@ -57,7 +56,6 @@ export function Header() {
             </Link>
           ))}
 
-          {/* Auth Button */}
           {token ? (
             <Button
               variant="destructive"
@@ -75,7 +73,6 @@ export function Header() {
           )}
         </nav>
 
-        {/* Mobile Menu */}
         <div className="md:hidden flex items-center gap-2">
           <Sheet>
             <SheetTrigger asChild>

@@ -10,11 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { useAuthStore } from "@/store/auth-store";
-
-const loginSchema = z.object({
-    email: z.string().email("Geçerli bir email giriniz"),
-    password: z.string().min(6, "Şifre en az 6 karakter olmalıdır"),
-});
+import { loginSchema } from "@/lib/schema/auth";
 
 export function LoginPage() {
     const setToken = useAuthStore((s) => s.setToken);
