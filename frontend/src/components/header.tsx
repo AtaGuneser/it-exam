@@ -61,13 +61,13 @@ export function Header() {
           {token ? (
             <Button
               variant="destructive"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 hover:bg-red-600/90 transition cursor-pointer"
               onClick={handleLogout}
             >
               <LogOut className="h-4 w-4" /> Çıkış Yap
             </Button>
           ) : (
-            <Button asChild variant="outline" className="flex items-center gap-2">
+            <Button asChild variant="outline" className="flex items-center gap-2 hover:bg-primary/10 transition cursor-pointer">
               <Link to="/login">
                 <LogIn className="h-4 w-4" /> Giriş Yap
               </Link>
@@ -107,12 +107,12 @@ export function Header() {
                   <Button
                     variant="destructive"
                     onClick={handleLogout}
-                    className="flex items-center gap-2 mt-4"
+                    className="flex items-center gap-2 mt-4 hover:bg-red-600/90 cursor-pointer"
                   >
                     <LogOut className="h-4 w-4" /> Çıkış Yap
                   </Button>
                 ) : (
-                  <Button asChild variant="outline" className="flex items-center gap-2 mt-4">
+                  <Button asChild variant="outline" className="flex items-center gap-2 mt-4 hover:bg-primary/10 cursor-pointer">
                     <Link to="/login">
                       <LogIn className="h-4 w-4" /> Giriş Yap
                     </Link>
