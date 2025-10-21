@@ -10,16 +10,17 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 export interface PatientRowData {
-  _id: string;
+ _id?: string;
   firstName: string;
   lastName: string;
-  email: string;
-  phone: string;
-  gender: string;
   dateOfBirth: string;
+  gender: string;
+  phone: string;
+  email: string;
   address: string;
-  medicalHistory?: string;
-  createdAt: string;
+  medicalHistory?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface PatientsTableProps {

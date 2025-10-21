@@ -8,7 +8,6 @@ function RouteComponent() {
   return (
     <>
       <Outlet />
-      <h1>Patients Layout</h1>
     </>
   );
 }
